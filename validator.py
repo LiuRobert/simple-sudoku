@@ -17,9 +17,44 @@ def solve(boxes):
 	for box in boxes:
 		board.append(box.number)
 	board = __solve(board)
+	if board is None:
+		print("Not solvable")
+		return boxes
 	for i in range(len(boxes)):
 		boxes[i].number = board[i]
 	return boxes
+
+def has_more_than_one_solution(board, solutions = None):
+	if solutions is None:
+		solutions = []
+	index = __get_first_available_index(board)
+	if index == -1:
+		solutions.append(board)
+		if len(solutions) > 1:
+			return True
+	more_than_one_solution = False
+	for number in range(1, 10):
+		new_board = board.copy()
+		new_board[index] = number
+		if __validate_move(new_board, index):
+			if __has_more_than_one_solution(new_board, solutions):
+				return True
+	return False
+
+
+# This can take forever so dont use unless you have most of the board filled
+def get_all_solutions(board, solutions = None):
+	if solutions is None:
+		solutions = []
+	index = __get_first_available_index(board)
+	if index == -1:
+		solutions.append(board)
+	for number in range(1, 10):
+		new_board = board.copy()
+		new_board[index] = number
+		if __validate_move(new_board, index):
+			__get_all_solutions(new_board, solutions)
+
 
 def __solve(board):
 	index = __get_first_available_index(board)
@@ -33,6 +68,7 @@ def __solve(board):
 			if not solved is None:
 				return solved
 	return None
+
 
 def __get_first_available_index(board):
 	for i in range(len(board)):

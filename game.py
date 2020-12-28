@@ -75,6 +75,9 @@ def on_key_up(key):
 		box.on_key_up(key)
 	if key == pygame.K_c:
 		boxes = validator.solve(boxes)
+	elif key == pygame.K_k:
+		# validator.get_all_solutions(boxes)
+		print(validator.has_more_than_one_solution(boxes))
 
 on_update()
 while running:
