@@ -10,7 +10,7 @@ def validate_boxes(boxes):
 		if board[i] is None:
 			boxes[i].set_valid(True)
 		else:
-			boxes[i].set_valid(__validate_move(board, i))
+			boxes[i].set_valid(validate_move(board, i))
 
 def solve(boxes):
 	board = []
@@ -36,11 +36,17 @@ def has_more_than_one_solution(board, solutions = None):
 	for number in range(1, 10):
 		new_board = board.copy()
 		new_board[index] = number
-		if __validate_move(new_board, index):
-			if __has_more_than_one_solution(new_board, solutions):
+		if validate_move(new_board, index):
+			if has_more_than_one_solution(new_board, solutions):
 				return True
 	return False
 
+def validate_move(board, index):
+	valid = True
+	valid = valid & __check_horizontal(board, index)
+	valid = valid & __check_vertical(board, index)
+	valid = valid & __check_quadrant(board, index)
+	return valid
 
 # This can take forever so dont use unless you have most of the board filled
 def get_all_solutions(board, solutions = None):
@@ -52,7 +58,7 @@ def get_all_solutions(board, solutions = None):
 	for number in range(1, 10):
 		new_board = board.copy()
 		new_board[index] = number
-		if __validate_move(new_board, index):
+		if validate_move(new_board, index):
 			__get_all_solutions(new_board, solutions)
 
 
@@ -63,7 +69,7 @@ def __solve(board):
 	for number in range(1, 10):
 		new_board = board.copy()
 		new_board[index] = number
-		if __validate_move(new_board, index):
+		if validate_move(new_board, index):
 			solved = __solve(new_board)
 			if not solved is None:
 				return solved
@@ -76,12 +82,6 @@ def __get_first_available_index(board):
 			return i
 	return -1
 
-def __validate_move(board, index):
-	valid = True
-	valid = valid & __check_horizontal(board, index)
-	valid = valid & __check_vertical(board, index)
-	valid = valid & __check_quadrant(board, index)
-	return valid
 
 def __check_horizontal(board, index):
 	number = board[index]

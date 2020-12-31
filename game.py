@@ -1,7 +1,7 @@
 import pygame
 from box import Box
 import validator
-import random
+import generator
 
 size = 900, 900
 pygame.init()
@@ -75,9 +75,13 @@ def on_key_up(key):
 		box.on_key_up(key)
 	if key == pygame.K_c:
 		boxes = validator.solve(boxes)
+	elif key == pygame.K_j:
+		boxes = generator.generate_easy()
 	elif key == pygame.K_k:
-		# validator.get_all_solutions(boxes)
-		print(validator.has_more_than_one_solution(boxes))
+		boxes = generator.generate_medium()
+	# elif key == pygame.K_l:
+	# 	boxes = generator.generate_hard()
+
 
 on_update()
 while running:
