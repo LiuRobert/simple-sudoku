@@ -75,7 +75,6 @@ def __solve(board):
 				return solved
 	return None
 
-
 def __get_first_available_index(board):
 	for i in range(len(board)):
 		if board[i] is None:

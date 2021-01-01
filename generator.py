@@ -4,14 +4,22 @@ import random
 
 
 def generate_easy():
-	return __generate(0.5)
+	return __generate_reduced(30)
 
+# Sometimes slow
 def generate_medium():
+	return __generate_reduced(55)
+
+# Allways slow
+def generate_hard():
+	return __generate_reduced(81)
+
+def __generate_reduced(number_to_remove):
 	board = __generate_random_solved()
-	board = __get_reduced_board(board, 55)
+	board = __get_reduced_board(board, number_to_remove)
 	return __board_to_boxes(board)
 
-# Tries to remove as many numbers as number_to_remove from an already solver sudoku.
+# Tries to remove as many numbers as number_to_remove from an already solved sudoku.
 # But if a removed number results in the sudoku having more than one solution the number will not be removed.
 def __get_reduced_board(board, number_to_remove, filter = None):
 	print(number_to_remove)
@@ -43,28 +51,11 @@ def __get_random(board, empty, filter = []):
 		return None
 	return indexes[random.randint(0, length -1)]
 
-
-def __generate(chance):
-	solved = __generate_random_solved()
-	board = []
-	has_more_than_one_solution = True
-	while has_more_than_one_solution:
-		board = __remove_board_numbers(solved, chance)
-		has_more_than_one_solution = validator.has_more_than_one_solution(board)
-	return __board_to_boxes(board)
-
 def __board_to_boxes(board):
 	boxes = []
 	for i in range(len(board)):
 		boxes.append(Box(i, board[i]))
 	return boxes
-
-def __remove_board_numbers(board, chance):
-	new_board = board.copy()
-	for i in range(len(new_board)):
-		if random.random() > chance:
-			new_board[i] = None
-	return new_board
 
 def __generate_random_solved(board = None):
 	if board is None:

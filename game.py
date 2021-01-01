@@ -79,8 +79,8 @@ def on_key_up(key):
 		boxes = generator.generate_easy()
 	elif key == pygame.K_k:
 		boxes = generator.generate_medium()
-	# elif key == pygame.K_l:
-	# 	boxes = generator.generate_hard()
+	elif key == pygame.K_l:
+		boxes = generator.generate_hard()
 
 
 on_update()
